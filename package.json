@@ -1,0 +1,22 @@
+{
+  "description": "React Weather App",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "fetch": "^1.1.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "http-proxy": "^1.16.2",
+    "node-fetch": "^1.7.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "sass": "^1.0.0-beta.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  }
+}

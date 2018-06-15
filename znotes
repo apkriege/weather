@@ -1,0 +1,5 @@
+# MUST HAVE NODE INSTALLED
+- npm install
+
+# running server with nodemon
+- npm start
