@@ -1,0 +1,12 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("../images/city.jpg");
+  background-size: cover;
+  background-position: center; }
+
+.current {
+  width: 200px;
+  height: 200px;
+  background-color: #da4040; }
