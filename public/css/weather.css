@@ -6,7 +6,40 @@ html, body {
   background-size: cover;
   background-position: center; }
 
-.current {
-  width: 200px;
-  height: 200px;
-  background-color: #da4040; }
+.weather {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(31, 31, 31, 0.5); }
+
+/* middle content */
+.middle {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.middle .current {
+  display: flex;
+  position: absolute;
+  top: 25%;
+  width: 300px;
+  height: 300px;
+  background-color: #da4040;
+  border-radius: 200px; }
+
+.middle .current .temp {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+/* bottom content */
+.bottom {
+  display: flex;
+  justify-content: center; }
+
+.bottom .fiveday {
+  background-color: #444;
+  width: 600px;
+  height: 100px;
+  position: absolute;
+  bottom: 0; }
