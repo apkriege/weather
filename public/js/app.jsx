@@ -13,11 +13,48 @@ class Location extends React.Component {
   render() {
     return (
       <div className="location">
-        <span>Lake Tahoe, UT</span>
+        <h1>Lake Tahoe, UT</h1>
       </div>
     )
   }
 }
+
+// CURRENT CONDITIONS
+class Time extends React.Component {
+  constructor() {
+    super()
+    this.state = { time:this.displayTime() }
+
+    let x = this
+    setInterval(function (){
+      x.setState({ time:x.displayTime() })
+    }, 1000)
+
+  }
+  displayTime(){
+    var currentTime = new Date(),
+    hours = currentTime.getHours(),
+    minutes = currentTime.getMinutes(),
+    suffix = 'AM'
+  
+    hours = hours == 0 ? 12 : hours
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    suffix = hours >= 12 ? 'PM' : 'AM'
+    hours = hours >= 12 ? hours - 12 : hours
+    hours = hours == 0 ? 12 : hours
+
+    return hours + ":" + minutes + " " + suffix
+  }
+
+  render() {
+    return (
+      <div className="time">
+        <h1>{ this.state.time }</h1>
+      </div>
+    )
+  }
+}
+
 
 // CURRENT CONDITIONS
 class Current extends React.Component {
@@ -79,10 +116,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="weather">
-        <div className="top"><Location /></div>
-        <div className="middle"><Current /></div>
-        <div className="bottom"><FiveDay /></div>
+      <div id="inner">
+        <div className="top">
+          <div className="city"><Location/></div>
+          <div className="time"><Time/></div>
+        </div>
+        <div className="bottom">
+          <div className="weather">
+            {/* <div className="overlay"> */}
+              {/* <Current /> */}
+              <FiveDay />
+            {/* </div> */}
+          </div>
+        </div>
       </div>
     )
   }

@@ -2,29 +2,49 @@ html, body {
   margin:0;
   height:100%;
   width:100%;
+  
+}
+body{
   background-image:url('../images/city.jpg');
   background-size:cover;
   background-position:center;
+  background-attachment: fixed;
 }
-
-.weather{ width:100%; height:100%; background-color: rgba(31,31,31,.5) }
-
-.top{  }
-
-
-/* middle content */
-.middle{ display:flex; align-items: center; justify-content: center }
-.middle{
-  .current { display:flex; position: absolute; top:25%; width:300px; height:300px; background-color:rgb(218, 64, 64); border-radius: 200px; }
-  .current {
-    .temp { width:100%; display:flex; align-items:center; justify-content:center }
-  }
+#app, #inner{
+  background:inherit;
 }
+h1{ margin:0; padding:0 }
+
+/* top content */
+.top{ display:flex; }
+.top{ 
+  .city h1{ font-family: 'Source Sans Pro'; font-weight:100; padding:10px 0 0 20px; font-size:64px; color:#eee }
+  .time h1{ font-family: 'Source Sans Pro'; font-weight:100; padding:10px 0 0 20px; font-size:64px; color:#eee; position: absolute; right:20px }
+ }
 
 
 /* bottom content */
-.bottom{ display:flex; justify-content:center; }
 .bottom{
-  .fiveday { background-color:#444; width:600px; height:100px; position:absolute; bottom:0; }
-}
+  bottom:0;
+  background: inherit;
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  overflow: hidden;  //adding overflow hidden
+ }
+ .bottom:before{
+  content: '';
+  width: 110%;
+  height: 350px;
+  background: inherit; 
+  position: absolute;
+  left: -25px;  //giving minus -25px left position
+  right: 0;
+  top: -25px;   //giving minus -25px top position 
+  bottom: 0;
+  box-shadow: inset 0 0 0 200px rgba(111,111,111,0.3);
+  filter: blur(10px);
+ }
+
+.weather{ position:absolute; }
 
