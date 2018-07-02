@@ -40,7 +40,8 @@ class FiveDay {
       y.day = formatDay(ele[0].dt_txt);
       y.high = highTemp(ele);
       y.low = lowTemp(ele);
-      y.conditions = ele[0].weather[0].main;
+      // y.conditions = ele[0].weather[0].main;
+      y.conditions = setConditions(ele);
       y.icon = icon(y.conditions);
       y.accum = accumulation(ele);
       y.thresh = snowThresh(ele.accum);
@@ -52,14 +53,14 @@ class FiveDay {
 }
 
 // HELPER FUNCTIONS
-var formatDay = txt => {
+formatDay = txt => {
   let day = new Date(txt);
   let d = day.getDay();
   var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   return days[d];
 }
 
-var formatDate = txt => {
+formatDate = txt => {
   let day = new Date(txt);
   let x = txt.split(' ')[0];
   let y = x.split('-');
@@ -67,7 +68,7 @@ var formatDate = txt => {
   return date;
 }
 
-var highTemp = data => {
+highTemp = data => {
   let that = this;
   let x = data[0].main.temp_max;
 
@@ -79,7 +80,7 @@ var highTemp = data => {
   return formatTemp(x);
 }
 
-var lowTemp = data => {
+lowTemp = data => {
   let that = this;
   let y = data[0].main.temp_min;
 
@@ -91,7 +92,7 @@ var lowTemp = data => {
   return formatTemp(y);
 }
 
-var accumulation = data => {
+accumulation = data => {
   let snow = 0;
   data.forEach(function (ele){
     if(ele.hasOwnProperty('snow' )&& ele.snow['3h'] != undefined){
@@ -102,29 +103,48 @@ var accumulation = data => {
   return snow;
 }
 
-var formatTemp = temp => {
+formatTemp = temp => {
   temp = 9/5 * (temp - 273) + 32;
   return temp.toFixed(0);
 }
 
-var icon = desc => {
+setConditions = test => {
+  var cond
+  
+  for(let x of test){
+    let y = x.weather[0].main
+    if(y == 'Rain'){
+      cond = 'Rain';
+    }
+    if(y == 'Clouds' && cond != 'Rain'){
+      cond = 'Clouds';
+    }
+    if(y == 'Clear' && cond != 'Clouds' && cond != 'Rain'){
+      cond = 'Clear';
+    }
+  }
+
+  return cond;
+}
+
+icon = desc => {
   let ret;
   if(desc == "Snow"){
-    ret = "fa fa-snowflake-o"
+    ret = "wi wi-day-snow"
   }
   else if(desc == "Rain"){
-    ret = "fa fa-tint"
+    ret = "wi wi-day-rain"
   }
   else if(desc == "Clouds"){
-    ret = "fa fa-cloud"
+    ret = "wi wi-day-cloudy"
   }
   else{
-    ret = "fa fa-sun-o"
+    ret = "wi wi-day-sunny"
   }
   return ret;
 }
 
-var snowThresh = tot => {
+snowThresh = tot => {
   let ret;
 
   if(tot < 1){ ret = '> 1"' }

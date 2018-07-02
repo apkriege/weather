@@ -13,7 +13,7 @@ class Location extends React.Component {
   render() {
     return (
       <div className="location">
-        <h1>Closest city - Lake Tahoe</h1>
+        <h1>Lake Tahoe</h1>
       </div>
     )
   }
@@ -66,7 +66,7 @@ class Current extends React.Component {
   async componentDidMount() {
     let res = await fetch('/current');
     let data = await res.json();
-    // console.log(data);
+    console.log(data);
     this.setState({ current:data })
   }
 
@@ -76,7 +76,7 @@ class Current extends React.Component {
       let x = this.state.current.weather
       return (
         <div className="current">
-          <h1 className="temp">{x.temp}° <span className="curr-icon"><i className="wi wi-night-sleet"></i></span></h1>
+          <h1 className="temp">{x.temp}° <span className="curr-icon"><i className={x.icon}></i></span></h1>
           <div className="conditions">
             <h3>
               <span className="day">{x.day}</span>
@@ -110,7 +110,11 @@ class FiveDay extends React.Component {
   async componentDidMount() {
     let res = await fetch('/fiveday');
     let data = await res.json();
-    console.log(data);
+    // console.log(data);
+    for(let d of data.data.list){
+      // console.log(d.weather.main)
+      // console.log(d.weather[0].main)
+    }
     this.setState({ fiveday:data })
   }
 
@@ -144,13 +148,13 @@ class SingleDay extends React.Component {
   constructor(props) {
     super()
     this.state = { day:props.day}
-    console.log(props.day)
+    // console.log(props.day)
   }
 
   render() {
     return (
       <div className="single">
-        <div className="icon"><i className="wi wi-night-sleet"></i></div>
+        <div className="icon"><i className={this.state.day.icon}></i></div>
         <div className="temp">{this.state.day.high}°<span className="low">{this.state.day.low}°</span></div>
         <div className="day">{this.state.day.day}</div>
       </div>

@@ -30,6 +30,7 @@ class Current {
     y.winddir = windDirectionOutput(x.wind.deg);
     y.wind = x.wind.deg;
     y.windspeed = meterPerSecToMph(x.wind.speed);
+    y.icon = getIcon(x.weather[0].main)
 
     return y;
   }
@@ -68,6 +69,23 @@ convertSunTime = time => {
 convertVis = meters => {
   let vis = meters * 0.00062137
   return vis.toFixed(2);
+}
+
+getIcon = desc => {
+  let ret;
+  if(desc == "Snow"){
+    ret = "wi wi-day-snow"
+  }
+  else if(desc == "Rain"){
+    ret = "wi wi-day-rain"
+  }
+  else if(desc == "Clouds"){
+    ret = "wi wi-day-cloudy"
+  }
+  else{
+    ret = "wi wi-day-sunny"
+  }
+  return ret;
 }
 
 windDirectionOutput = deg => {
