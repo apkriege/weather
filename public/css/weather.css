@@ -12,9 +12,11 @@ body {
 #app, #inner {
   background: inherit; }
 
-h1 {
+h1, h3 {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  font-family: 'Source Sans Pro';
+  font-weight: 100; }
 
 /* top content */
 .top {
@@ -59,4 +61,68 @@ h1 {
   filter: blur(10px); }
 
 .weather {
-  position: absolute; }
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex; }
+
+.current {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+
+.current .temp {
+  font-size: 110px;
+  color: #eee; }
+
+.current .curr-icon {
+  font-weight: 100;
+  font-size: 72px; }
+
+.current .conditions {
+  margin-top: 20px; }
+
+.current .conditions h3 {
+  font-size: 26px;
+  color: #ddd; }
+
+.current .conditions span {
+  padding: 0 20px; }
+
+.current .conditions .day, .current .conditions .wind {
+  border-right: 1px solid #ddd; }
+
+.fiveday {
+  width: 70%;
+  display: flex; }
+
+.fiveday .single {
+  width: 20%;
+  border-left: 1px solid rgba(130, 130, 130, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Source Sans Pro';
+  font-weight: 100; }
+
+.fiveday .single .icon {
+  font-size: 52px;
+  color: #ddd; }
+
+.fiveday .single .temp {
+  margin-top: 20px;
+  font-size: 58px;
+  color: #eee; }
+
+.fiveday .single .low {
+  font-size: 28px;
+  color: #bbb; }
+
+.fiveday .single .day {
+  margin-top: 10px;
+  font-size: 22px;
+  color: #bbb;
+  font-weight: 300; }

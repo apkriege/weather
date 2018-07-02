@@ -71,7 +71,14 @@ class Current extends React.Component {
   render() {
     return (
       <div className="current">
-        <div className="temp">75°</div>
+        <h1 className="temp">75° <span className="curr-icon"><i className="wi wi-night-sleet"></i></span></h1>
+        <div className="conditions">
+          <h3>
+            <span className="day">Monday</span>
+            <span className="wind">4 mph</span>
+            <span className="cond">Clear</span>
+          </h3>
+        </div>
       </div>
     )
   }
@@ -92,12 +99,38 @@ class FiveDay extends React.Component {
   render() {
     return (
       <div className="fiveday">
-        something
+        <SingleDay />
+        <SingleDay />
+        <SingleDay />
+        <SingleDay />
+        <SingleDay />
       </div>
     )
   }
 }
 
+// SINGLE DAY CONDITIONS
+class SingleDay extends React.Component {
+  constructor() {
+    super()
+  }
+
+  // async componentDidMount() {
+    // let res = await fetch('/current');
+    // let data = await res.json();
+    // console.log(data);
+  // }
+
+  render() {
+    return (
+      <div className="single">
+        <div className="icon"><i className="wi wi-night-sleet"></i></div>
+        <div className="temp">74°<span className="low">64°</span></div>
+        <div className="day">Tuesday</div>
+      </div>
+    )
+  }
+}
 
 
 // 5 DAY FORECAST
@@ -124,7 +157,7 @@ class App extends React.Component {
         <div className="bottom">
           <div className="weather">
             {/* <div className="overlay"> */}
-              {/* <Current /> */}
+              <Current />
               <FiveDay />
             {/* </div> */}
           </div>
