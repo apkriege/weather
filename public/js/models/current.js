@@ -18,6 +18,7 @@ class Current {
   setProps(){
     let x = this.data;
     let y = {};
+    y.day = getDate();
     y.temp = kelvinToFahren(x.main.temp);
     y.name = x.name;
     y.humidity = x.main.humidity;
@@ -34,6 +35,13 @@ class Current {
   }
 }
 
+getDate = () => {
+  let d = new Date()
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  d = days[d.getDay()]
+  return d;
+}
+
 outputConditions = cond => {
   let ret = '';
   cond.forEach(function (val){
@@ -43,7 +51,7 @@ outputConditions = cond => {
 }
 
 meterPerSecToMph = speed => {
-  return (speed * 2.2369).toFixed(2);
+  return (speed * 2.2369).toFixed(0);
 }
 
 kelvinToFahren = temp => {

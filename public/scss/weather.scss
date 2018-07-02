@@ -58,6 +58,7 @@ h1, h3{ margin:0; padding:0; font-family: 'Source Sans Pro'; font-weight:100 }
     span{ padding:0 20px  }
     .day, .wind{ border-right:1px solid #ddd }
   }
+  .error{ padding:20px; text-align:center; color:#eee }
 }
 
 
@@ -70,5 +71,6 @@ h1, h3{ margin:0; padding:0; font-family: 'Source Sans Pro'; font-weight:100 }
     .low{ font-size:28px; color:#bbb }
     .day{ margin-top:10px; font-size:22px;color:#bbb; font-weight:300 }
   }
+  .error{ padding:20px; text-align:center; color:#eee; margin:auto }
 }
 

@@ -13,7 +13,7 @@ class Location extends React.Component {
   render() {
     return (
       <div className="location">
-        <h1>Lake Tahoe, UT</h1>
+        <h1>Closest city - Lake Tahoe</h1>
       </div>
     )
   }
@@ -60,27 +60,43 @@ class Time extends React.Component {
 class Current extends React.Component {
   constructor() {
     super()
+    this.state = { }
   }
 
-  // async componentDidMount() {
-    // let res = await fetch('/current');
-    // let data = await res.json();
+  async componentDidMount() {
+    let res = await fetch('/current');
+    let data = await res.json();
     // console.log(data);
-  // }
+    this.setState({ current:data })
+  }
 
   render() {
-    return (
-      <div className="current">
-        <h1 className="temp">75° <span className="curr-icon"><i className="wi wi-night-sleet"></i></span></h1>
-        <div className="conditions">
-          <h3>
-            <span className="day">Monday</span>
-            <span className="wind">4 mph</span>
-            <span className="cond">Clear</span>
-          </h3>
+    if(this.state.current){
+      // console.log(this.state.current)
+      let x = this.state.current.weather
+      return (
+        <div className="current">
+          <h1 className="temp">{x.temp}° <span className="curr-icon"><i className="wi wi-night-sleet"></i></span></h1>
+          <div className="conditions">
+            <h3>
+              <span className="day">{x.day}</span>
+              <span className="wind">{x.windspeed} mph</span>
+              <span className="cond">{x.weather}</span>
+            </h3>
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return(
+        <div className="current">
+          <div className="error">
+            <h1>There was an error loading the data from the database</h1>
+          </div>
+        </div>
+      )
+    }
+    
   }
 }
 
@@ -88,45 +104,55 @@ class Current extends React.Component {
 class FiveDay extends React.Component {
   constructor() {
     super()
+    this.state = { }
   }
 
-  // async componentDidMount() {
-    // let res = await fetch('/current');
-    // let data = await res.json();
-    // console.log(data);
-  // }
+  async componentDidMount() {
+    let res = await fetch('/fiveday');
+    let data = await res.json();
+    console.log(data);
+    this.setState({ fiveday:data })
+  }
 
   render() {
-    return (
-      <div className="fiveday">
-        <SingleDay />
-        <SingleDay />
-        <SingleDay />
-        <SingleDay />
-        <SingleDay />
-      </div>
-    )
+    if(this.state.fiveday){
+      let x = this.state.fiveday.rest
+      return (
+        <div className="fiveday">
+          <SingleDay day={x[0]} />
+          <SingleDay day={x[1]} />
+          <SingleDay day={x[2]} />
+          <SingleDay day={x[3]} />
+          <SingleDay day={x[4]} />
+        </div>
+      )
+    }
+    else {
+      return(
+        <div className="fiveday">
+          <div className="error">
+            <h1>There was an error loading the five day data</h1>
+          </div>
+        </div>
+      )
+    }
   }
 }
 
 // SINGLE DAY CONDITIONS
 class SingleDay extends React.Component {
-  constructor() {
+  constructor(props) {
     super()
+    this.state = { day:props.day}
+    console.log(props.day)
   }
-
-  // async componentDidMount() {
-    // let res = await fetch('/current');
-    // let data = await res.json();
-    // console.log(data);
-  // }
 
   render() {
     return (
       <div className="single">
         <div className="icon"><i className="wi wi-night-sleet"></i></div>
-        <div className="temp">74°<span className="low">64°</span></div>
-        <div className="day">Tuesday</div>
+        <div className="temp">{this.state.day.high}°<span className="low">{this.state.day.low}°</span></div>
+        <div className="day">{this.state.day.day}</div>
       </div>
     )
   }

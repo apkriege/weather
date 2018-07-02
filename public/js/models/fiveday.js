@@ -55,7 +55,7 @@ class FiveDay {
 var formatDay = txt => {
   let day = new Date(txt);
   let d = day.getDay();
-  var days = ['Sun','Mon','Tues','Wed','Thur','Fri','Sat'];
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   return days[d];
 }
 

@@ -31,11 +31,11 @@ app.get('/current', async function (req, res) {
   res.send(new Current(y))
 })
 
-// app.get('/fiveday', async function (req, res) {
-//   let x = await fetch(f)
-//   let y = await x.json()
-//   res.send(new FiveDay(y))
-// })
+app.get('/fiveday', async function (req, res) {
+  let x = await fetch(f)
+  let y = await x.json()
+  res.send(new FiveDay(y))
+})
 
 //TODO add a callback that checks if already listening on that port
 app.listen(port, host, function (){
