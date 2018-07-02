@@ -110,11 +110,7 @@ class FiveDay extends React.Component {
   async componentDidMount() {
     let res = await fetch('/fiveday');
     let data = await res.json();
-    // console.log(data);
-    for(let d of data.data.list){
-      // console.log(d.weather.main)
-      // console.log(d.weather[0].main)
-    }
+    console.log(data)
     this.setState({ fiveday:data })
   }
 
@@ -123,11 +119,11 @@ class FiveDay extends React.Component {
       let x = this.state.fiveday.rest
       return (
         <div className="fiveday">
-          <SingleDay day={x[0]} />
           <SingleDay day={x[1]} />
           <SingleDay day={x[2]} />
           <SingleDay day={x[3]} />
           <SingleDay day={x[4]} />
+          <SingleDay day={x[5]} />
         </div>
       )
     }
@@ -148,9 +144,7 @@ class SingleDay extends React.Component {
   constructor(props) {
     super()
     this.state = { day:props.day}
-    // console.log(props.day)
   }
-
   render() {
     return (
       <div className="single">
@@ -170,13 +164,6 @@ class App extends React.Component {
   constructor() {
     super()
   }
-
-  // async componentDidMount() {
-  //   let res = await fetch('/data');
-  //   let data = await res.json();
-  //   console.log(data);
-  // }
-
   render() {
     return (
       <div id="inner">
@@ -186,10 +173,8 @@ class App extends React.Component {
         </div>
         <div className="bottom">
           <div className="weather">
-            {/* <div className="overlay"> */}
               <Current />
               <FiveDay />
-            {/* </div> */}
           </div>
         </div>
       </div>
