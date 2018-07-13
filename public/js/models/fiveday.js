@@ -36,6 +36,7 @@ class FiveDay {
     let rest = [];
     this.five.days.forEach(function(ele){
       let y = {};
+      y.today = todaysDate();
       y.date = formatDate(ele[0].dt_txt);
       y.day = formatDay(ele[0].dt_txt);
       y.high = highTemp(ele);
@@ -53,6 +54,17 @@ class FiveDay {
 }
 
 // HELPER FUNCTIONS
+todaysDate = () => {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  dd = dd < 10 ? '0'+dd : dd;
+  mm = mm < 10 ? '0'+mm : mm;
+  return mm + '/' + dd;
+}
+
 formatDay = txt => {
   let day = new Date(txt);
   let d = day.getDay();

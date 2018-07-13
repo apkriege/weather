@@ -2,18 +2,28 @@
 class Location extends React.Component {
   constructor() {
     super()
+    this.state = { zip:'' }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
   }
-
-  // async componentDidMount() {
-    // let res = await fetch('/current');
-    // let data = await res.json();
-    // console.log(data);
-  // }
-
+  handleSubmit(ev) {
+    ev.preventDefault();
+    console.log(this.state.zip)
+    
+  }
+  handleChange(ev) {
+    this.setState({zip:ev.target.value})
+  }
   render() {
     return (
       <div className="location">
-        <h1>Lake Tahoe</h1>
+        {/* <h1>Reese</h1> */}
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="submit" value="Submit" />
+        </form>
       </div>
     )
   }
@@ -58,28 +68,24 @@ class Time extends React.Component {
 
 // CURRENT CONDITIONS
 class Current extends React.Component {
-  constructor() {
+  constructor(props) {
     super()
-    this.state = { }
+    this.state = { zip:props.zip }
   }
-
   async componentDidMount() {
-    let res = await fetch('/current');
+    let res = await fetch('/current/'+this.props.zip )
     let data = await res.json();
-    console.log(data);
     this.setState({ current:data })
   }
-
   render() {
     if(this.state.current){
-      // console.log(this.state.current)
       let x = this.state.current.weather
       return (
         <div className="current">
           <h1 className="temp">{x.temp}° <span className="curr-icon"><i className={x.icon}></i></span></h1>
           <div className="conditions">
             <h3>
-              <span className="day">{x.day}</span>
+              <span className="day">Current</span>
               <span className="wind">{x.windspeed} mph</span>
               <span className="cond">{x.weather}</span>
             </h3>
@@ -102,28 +108,29 @@ class Current extends React.Component {
 
 // FIVEDAY CONDITIONS
 class FiveDay extends React.Component {
-  constructor() {
+  constructor(props) {
     super()
-    this.state = { }
+    this.state = { zip:props.zip }
+    console.log(props.zip)
   }
 
   async componentDidMount() {
-    let res = await fetch('/fiveday');
+    let res = await fetch('/fiveday/'+this.state.zip);
     let data = await res.json();
-    console.log(data)
     this.setState({ fiveday:data })
   }
 
   render() {
     if(this.state.fiveday){
       let x = this.state.fiveday.rest
+      let i = x.today == x.date ? 0 : 1;
       return (
         <div className="fiveday">
-          <SingleDay day={x[1]} />
-          <SingleDay day={x[2]} />
-          <SingleDay day={x[3]} />
-          <SingleDay day={x[4]} />
-          <SingleDay day={x[5]} />
+          <SingleDay day={x[i]} />
+          <SingleDay day={x[i+1]} />
+          <SingleDay day={x[i+2]} />
+          <SingleDay day={x[i+3]} />
+          <SingleDay day={x[i+4]} />
         </div>
       )
     }
@@ -143,7 +150,7 @@ class FiveDay extends React.Component {
 class SingleDay extends React.Component {
   constructor(props) {
     super()
-    this.state = { day:props.day}
+    this.state = { day:props.day }
   }
   render() {
     return (
@@ -163,6 +170,7 @@ class SingleDay extends React.Component {
 class App extends React.Component {
   constructor() {
     super()
+    this.state = { zip:'48066' }
   }
   render() {
     return (
@@ -173,8 +181,8 @@ class App extends React.Component {
         </div>
         <div className="bottom">
           <div className="weather">
-              <Current />
-              <FiveDay />
+              <Current zip={this.state.zip} />
+              <FiveDay zip={this.state.zip} />
           </div>
         </div>
       </div>
