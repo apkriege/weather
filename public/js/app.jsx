@@ -1,33 +1,4 @@
-// CURRENT CONDITIONS
-class Location extends React.Component {
-  constructor() {
-    super()
-    this.state = { zip:'' }
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-  }
-  handleSubmit(ev) {
-    ev.preventDefault();
-    console.log(this.state.zip)
-    
-  }
-  handleChange(ev) {
-    this.setState({zip:ev.target.value})
-  }
-  render() {
-    return (
-      <div className="location">
-        {/* <h1>Reese</h1> */}
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
-    )
-  }
-}
 
 // CURRENT CONDITIONS
 class Time extends React.Component {
@@ -73,9 +44,9 @@ class Current extends React.Component {
     this.state = { zip:props.zip }
   }
   async componentDidMount() {
-    let res = await fetch('/current/'+this.props.zip )
-    let data = await res.json();
-    this.setState({ current:data })
+    // let res = await fetch('/current/'+this.props.zip )
+    // let data = await res.json();
+    // this.setState({ current:data })
   }
   render() {
     if(this.state.current){
@@ -111,14 +82,35 @@ class FiveDay extends React.Component {
   constructor(props) {
     super()
     this.state = { zip:props.zip }
-    console.log(props.zip)
+    // console.log(this.state)
+    // console.log(props.zip)
   }
 
-  async componentDidMount() {
-    let res = await fetch('/fiveday/'+this.state.zip);
-    let data = await res.json();
-    this.setState({ fiveday:data })
+  async componentDidMount(props) {
+    console.log(props)
+    // let res = await fetch('/fiveday/'+this.state.zip);
+    // let data = await res.json();
+    // this.setState({ fiveday:data })
   }
+
+  async componentWillReceiveProps(props) {
+    console.log(props.zip)
+    this.setState({zip:props.zip})
+    console.log(this.state)
+    // console.log(props)
+    // // console.log(this.props)
+    // this.setState({ zip:props.zip })
+    // console.log(this.state);
+
+    // console.log('boom')
+    // this.setState()
+    // let res = await fetch('/fiveday/'+this.state.zip);
+    // let data = await res.json();
+    // this.setState({ fiveday:data })
+
+    // console.log(data)
+  }
+
 
   render() {
     if(this.state.fiveday){
@@ -165,24 +157,80 @@ class SingleDay extends React.Component {
 
 
 // 5 DAY FORECAST
+// CURRENT CONDITIONS
+class Location extends React.Component {
+  constructor() {
+    super()
+    this.state = { zip:'' }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+  }
+  handleSubmit(ev) {
+    // console.log(this.state.zip)
+    this.props.subBack(this.state.zip);
+  }
+  handleChange(ev) {
+    this.setState({zip:ev.target.value})
+  }
+  render() {
+    return (
+      <div className="location">
+        {/* <h1>Reese</h1> */}
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          {/* <input type="submit" value="Submit" /> */}
+          <input type="button" onClick={this.handleSubmit} value="submit"/>
+        </form>
+      </div>
+    )
+  }
+}
+
+class Test extends React.Component {
+  constructor(props){
+    super();
+    // console.log(this.props)
+    // this.test = this.test.bind(this)
+  }
+  componentDidUpdate(){
+    // console.log(this.props)
+  }
+  render() {
+    return(<h1>test</h1>)
+  }
+}
+
 
 // MAIN APPLICATION
 class App extends React.Component {
-  constructor() {
-    super()
-    this.state = { zip:'48066' }
+  constructor(props) {
+    super(props)
+    this.state = { zip:'48757', zip2:'94016' }
+    // this.state = {zip:''}
+    this.testingChange = this.testingChange.bind(this)
+  }
+  testingChange(x){
+    this.setState({zip:x})
+  }
+  componentDidUpdate(){
+    // console.log('updated')
+    // console.log(this.state)
   }
   render() {
     return (
       <div id="inner">
         <div className="top">
-          <div className="city"><Location/></div>
+          <Test test={this.state.zip} />
+          {/* <div className="city"><Location onZipChange={this.testingChange}/></div> */}
+          <div className="city"><Location subBack={this.testingChange} /></div>
           <div className="time"><Time/></div>
         </div>
         <div className="bottom">
           <div className="weather">
               <Current zip={this.state.zip} />
               <FiveDay zip={this.state.zip} />
+              
           </div>
         </div>
       </div>
