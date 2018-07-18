@@ -46,7 +46,6 @@ class Current extends React.Component {
   async componentDidMount() {
     let res = await fetch('/current/'+this.props.zip )
     let data = await res.json()
-    console.log(data)
     this.setState({ current:data })
   }
   async componentWillReceiveProps(nextProps) {
@@ -149,16 +148,26 @@ class SingleDay extends React.Component {
 // 5 DAY FORECAST
 // CURRENT CONDITIONS
 class Location extends React.Component {
-  constructor() {
+  constructor(props) {
     super()
-    this.state = { zip:'' }
+    this.state = { zip:props.initZip, location:'' }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
-  handleSubmit(ev) {
+  async componentDidMount(){
+    this.setCityAndState(this.state.zip)
+  }
+  async handleSubmit(ev) {
     ev.preventDefault()
-    this.props.subBack(this.state.zip);
+    this.setCityAndState(this.state.zip)
+    this.props.subBack(this.state.zip)
+  }
+  async setCityAndState(zip){
+    let res = await fetch('http://maps.googleapis.com/maps/api/geocode/json?address='+zip+'&sensor=true')
+    let data = await res.json()
+    let addr = data.results[0].formatted_address
+    addr = addr.replace(/[0-9]{5}.*$/g, '')
+    this.setState({location:addr})
   }
   handleChange(ev) {
     this.setState({zip:ev.target.value})
@@ -166,7 +175,7 @@ class Location extends React.Component {
   render() {
     return (
       <div className="location">
-        {/* <h1>Reese</h1> */}
+        <h1>{this.state.location}</h1>
         <form onSubmit={this.handleSubmit}>
           <input type="text" value={this.state.value} onChange={this.handleChange} />
           <input type="button" onClick={this.handleSubmit} value="submit"/>
@@ -176,47 +185,52 @@ class Location extends React.Component {
   }
 }
 
-class Test extends React.Component {
-  constructor(props){
-    super();
-    this.state = {zip:props.test}
-  }
-  componentDidMount(){
-    console.log(this.state)
-  }
-  shouldComponentUpdate(nextProps){
-    console.log(nextProps)
-    this.setState({zip:nextProps.test})
-    console.log(this.state)
+// class Test extends React.Component {
+//   constructor(props){
+//     super();
+//     this.state = {zip:props.test}
+//   }
+//   async componentDidMount(){
+//     // console.log(this.state)
+//     // let res = await fetch('http://maps.googleapis.com/maps/api/geocode/json?address='+this.state.zip+'&sensor=true')
+//     // // let res = await fetch('/city')
+//     // let data = await res.json()
+//     // console.log(data)
 
-  }
-  render() {
-    return(<h1>test</h1>)
-  }
-}
+//   }
+//   // shouldComponentUpdate(nextProps){
+//   //   console.log(nextProps)
+//   //   this.setState({zip:nextProps.test})
+//   //   console.log(this.state)
+
+//   // }
+//   render() {
+//     return(<h1>test</h1>)
+//   }
+// }
 
 
 // MAIN APPLICATION
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { zip:'48757', zip2:'94016' }
-    this.testingChange = this.testingChange.bind(this)
+    this.state = { zip:'48757', city:'' }
+    this.setZipCode = this.setZipCode.bind(this)
   }
-  testingChange(x){
-    this.setState({zip:x})
+  setZipCode(x){
+    this.setState({ zip:x })
   }
   render() {
     return (
       <div id="inner">
         <div className="top">
-          <Test test={this.state.zip} />
-          <div className="city"><Location subBack={this.testingChange} /></div>
+          {/* <Test test={this.state.zip} /> */}
+          <div className="city"><Location subBack={this.setZipCode} initZip={this.state.zip}/></div>
           <div className="time"><Time/></div>
         </div>
         <div className="bottom">
           <div className="weather">
-              <Current zip={this.state.zip} />
+              <Current zip={this.state.zip} cityBack={this.setCity} />
               <FiveDay zip={this.state.zip} />
               {/* <Test zip={this.state.zip} /> */}
           </div>

@@ -21,7 +21,7 @@ app.use(express.static(__dirname + '/public')); //use static files in ROOT/publi
 app.use(bodyParser.json())
 
 app.get('/', function(req, res){ //root dir
-    res.sendFile(path.join(__dirname+'/index.html'))
+  res.sendFile(path.join(__dirname+'/index.html'))
 });
 
 // API END POINTS
