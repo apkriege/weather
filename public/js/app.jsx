@@ -44,9 +44,15 @@ class Current extends React.Component {
     this.state = { zip:props.zip }
   }
   async componentDidMount() {
-    // let res = await fetch('/current/'+this.props.zip )
-    // let data = await res.json();
-    // this.setState({ current:data })
+    let res = await fetch('/current/'+this.props.zip )
+    let data = await res.json()
+    console.log(data)
+    this.setState({ current:data })
+  }
+  async componentWillReceiveProps(nextProps) {
+    let res = await fetch('/current/'+nextProps.zip )
+    let data = await res.json()
+    this.setState({ current:data })
   }
   render() {
     if(this.state.current){
@@ -82,36 +88,17 @@ class FiveDay extends React.Component {
   constructor(props) {
     super()
     this.state = { zip:props.zip }
-    // console.log(this.state)
-    // console.log(props.zip)
   }
-
-  async componentDidMount(props) {
-    console.log(props)
-    // let res = await fetch('/fiveday/'+this.state.zip);
-    // let data = await res.json();
-    // this.setState({ fiveday:data })
+  async componentDidMount() {
+    let res = await fetch('/fiveday/'+this.props.zip);
+    let data = await res.json();
+    this.setState({ fiveday:data })
   }
-
-  async componentWillReceiveProps(props) {
-    console.log(props.zip)
-    this.setState({zip:props.zip})
-    console.log(this.state)
-    // console.log(props)
-    // // console.log(this.props)
-    // this.setState({ zip:props.zip })
-    // console.log(this.state);
-
-    // console.log('boom')
-    // this.setState()
-    // let res = await fetch('/fiveday/'+this.state.zip);
-    // let data = await res.json();
-    // this.setState({ fiveday:data })
-
-    // console.log(data)
+  async componentWillReceiveProps(nextProps) {
+    let res = await fetch('/fiveday/'+nextProps.zip);
+    let data = await res.json();
+    this.setState({ fiveday:data })
   }
-
-
   render() {
     if(this.state.fiveday){
       let x = this.state.fiveday.rest
@@ -144,6 +131,9 @@ class SingleDay extends React.Component {
     super()
     this.state = { day:props.day }
   }
+  componentWillReceiveProps(nextProps){
+    this.setState({ day:nextProps.day }) 
+  }
   render() {
     return (
       <div className="single">
@@ -167,7 +157,7 @@ class Location extends React.Component {
 
   }
   handleSubmit(ev) {
-    // console.log(this.state.zip)
+    ev.preventDefault()
     this.props.subBack(this.state.zip);
   }
   handleChange(ev) {
@@ -179,7 +169,6 @@ class Location extends React.Component {
         {/* <h1>Reese</h1> */}
         <form onSubmit={this.handleSubmit}>
           <input type="text" value={this.state.value} onChange={this.handleChange} />
-          {/* <input type="submit" value="Submit" /> */}
           <input type="button" onClick={this.handleSubmit} value="submit"/>
         </form>
       </div>
@@ -190,11 +179,16 @@ class Location extends React.Component {
 class Test extends React.Component {
   constructor(props){
     super();
-    // console.log(this.props)
-    // this.test = this.test.bind(this)
+    this.state = {zip:props.test}
   }
-  componentDidUpdate(){
-    // console.log(this.props)
+  componentDidMount(){
+    console.log(this.state)
+  }
+  shouldComponentUpdate(nextProps){
+    console.log(nextProps)
+    this.setState({zip:nextProps.test})
+    console.log(this.state)
+
   }
   render() {
     return(<h1>test</h1>)
@@ -207,22 +201,16 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = { zip:'48757', zip2:'94016' }
-    // this.state = {zip:''}
     this.testingChange = this.testingChange.bind(this)
   }
   testingChange(x){
     this.setState({zip:x})
-  }
-  componentDidUpdate(){
-    // console.log('updated')
-    // console.log(this.state)
   }
   render() {
     return (
       <div id="inner">
         <div className="top">
           <Test test={this.state.zip} />
-          {/* <div className="city"><Location onZipChange={this.testingChange}/></div> */}
           <div className="city"><Location subBack={this.testingChange} /></div>
           <div className="time"><Time/></div>
         </div>
@@ -230,7 +218,7 @@ class App extends React.Component {
           <div className="weather">
               <Current zip={this.state.zip} />
               <FiveDay zip={this.state.zip} />
-              
+              {/* <Test zip={this.state.zip} /> */}
           </div>
         </div>
       </div>
