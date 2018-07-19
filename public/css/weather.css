@@ -29,6 +29,13 @@ h1, h3 {
   font-size: 64px;
   color: #eee; }
 
+.top .city p {
+  font-family: 'Source Sans Pro';
+  font-weight: 100;
+  margin: 0 0 0 20px;
+  color: #ccc;
+  font-size: 18px; }
+
 .top .time h1 {
   font-family: 'Source Sans Pro';
   font-weight: 100;

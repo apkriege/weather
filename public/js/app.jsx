@@ -181,7 +181,12 @@ class Location extends React.Component {
     console.log(this.state);
     return (
       <div className="location">
-        {this.state.showCity ? <h1 onClick={this.onCityClick}>{this.state.location}</h1> : null}
+        {this.state.showCity ? (
+          <div className="city">
+            <h1 onClick={this.onCityClick}>{this.state.location}</h1>
+            <p>Click above to search by zip </p>
+          </div>
+        ) : null}
         <form onSubmit={this.handleSubmit}>
           {this.state.showInput ? (
             <div className="zip">
