@@ -150,9 +150,13 @@ class SingleDay extends React.Component {
 class Location extends React.Component {
   constructor(props) {
     super()
-    this.state = { zip:props.initZip, location:'' }
+    this.state = { zip:props.initZip, location:'', showCity:true, showInput:false }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onCityClick = this.onCityClick.bind(this);
+  }
+  onCityClick(){ 
+    this.setState({ showCity:false, showInput:true })
   }
   async componentDidMount(){
     this.setCityAndState(this.state.zip)
@@ -168,46 +172,53 @@ class Location extends React.Component {
     let addr = data.results[0].formatted_address
     addr = addr.replace(/[0-9]{5}.*$/g, '')
     this.setState({location:addr})
+    this.setState({ showCity:true, showInput:false })
   }
   handleChange(ev) {
     this.setState({zip:ev.target.value})
   }
   render() {
+    console.log(this.state);
     return (
       <div className="location">
-        <h1>{this.state.location}</h1>
+        {this.state.showCity ? <h1 onClick={this.onCityClick}>{this.state.location}</h1> : null}
         <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-          <input type="button" onClick={this.handleSubmit} value="submit"/>
+          {this.state.showInput ? (
+            <div className="zip">
+              <input type="text" placeholder="Enter Zip" value={this.state.value} onChange={this.handleChange} ref={input => input && input.focus()} />
+              <div className="sub" onClick={this.handleSubmit}>Search</div>
+            </div>
+          ) : null }
         </form>
       </div>
     )
   }
 }
 
-// class Test extends React.Component {
-//   constructor(props){
-//     super();
-//     this.state = {zip:props.test}
-//   }
-//   async componentDidMount(){
-//     // console.log(this.state)
-//     // let res = await fetch('http://maps.googleapis.com/maps/api/geocode/json?address='+this.state.zip+'&sensor=true')
-//     // // let res = await fetch('/city')
-//     // let data = await res.json()
-//     // console.log(data)
-
-//   }
-//   // shouldComponentUpdate(nextProps){
-//   //   console.log(nextProps)
-//   //   this.setState({zip:nextProps.test})
-//   //   console.log(this.state)
-
-//   // }
-//   render() {
-//     return(<h1>test</h1>)
-//   }
-// }
+class Test extends React.Component {
+  constructor(props){
+    super();
+    this.state = { showCity:true, showInput:false }
+    this.onClick = this.onClick.bind(this)
+    this.onSub = this.onSub.bind(this)
+  }
+  onClick(){
+    console.log('test')
+    this.setState({ showCity:false, showInput:true })
+  }
+  onSub(){
+    console.log('test')
+    this.setState({ showCity:true, showshowInput:hide })
+  }
+  render() {
+    return(
+      <div>
+        {this.state.showCity ? <h1 onClick={this.onClick}>REESE</h1> : null}
+        {this.state.showInput ? <input type="text" onSub={this.onSub} /> : null}
+      </div>
+    ) 
+  }
+}
 
 
 // MAIN APPLICATION
@@ -224,7 +235,7 @@ class App extends React.Component {
     return (
       <div id="inner">
         <div className="top">
-          {/* <Test test={this.state.zip} /> */}
+          {/* <Test /> */}
           <div className="city"><Location subBack={this.setZipCode} initZip={this.state.zip}/></div>
           <div className="time"><Time/></div>
         </div>
